@@ -1,0 +1,27 @@
+# The agreement tests' one workflow: a dispatch names how its one job ends,
+# and the job waits in the gate environment until the sandbox owner
+# approves it, as every product job in the sandbox does.
+name: agree
+on:
+  workflow_dispatch:
+    inputs:
+      outcome:
+        description: how the job ends
+        required: true
+        type: choice
+        options: [pass, fail, hang]
+permissions: {}
+jobs:
+  agree:
+    runs-on: ubuntu-24.04
+    environment: ci-release
+    timeout-minutes: 1
+    steps:
+      - name: end as asked
+        env:
+          OUTCOME: ${{ inputs.outcome }}
+        run: |
+          case "$OUTCOME" in
+            fail) exit 1 ;;
+            hang) sleep 300 ;;
+          esac

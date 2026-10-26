@@ -1,2 +1,1 @@
-# agreement
-jstack's agreement tests: the fake GitHub against the real one
+The agreement tests of jstack's fake GitHub run here each night.
