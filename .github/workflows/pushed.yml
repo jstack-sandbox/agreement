@@ -1,0 +1,13 @@
+# Started by a push to a branch the agreement tests name under
+# agree/pushed-, and by no other push.
+name: pushed
+on:
+  push:
+    branches: ["agree/pushed-*"]
+permissions: {}
+jobs:
+  pushed:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - run: "true"
