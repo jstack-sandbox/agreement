@@ -2,8 +2,11 @@
 # ends, and the job waits in the gate environment until the sandbox owner
 # approves it, as every product job in the sandbox does. A job that passes
 # copies the file its report input names on the jstack-fixtures branch into
-# its artifact, as the sandbox's product CI copies what a step planted.
+# its artifact, as the sandbox's product CI copies what a step planted. A
+# run is titled by its outcome, as jstack titles its lock replay by its
+# commit.
 name: agree
+run-name: agree ${{ inputs.outcome }}
 on:
   workflow_dispatch:
     inputs:
