@@ -1,7 +1,12 @@
-# The agreement tests' one workflow: a dispatch names how its one job ends,
-# and the job waits in the gate environment until the sandbox owner
-# approves it, as every product job in the sandbox does.
+# The agreement tests' dispatched workflow: a dispatch names how its one job
+# ends, and the job waits in the gate environment until the sandbox owner
+# approves it, as every product job in the sandbox does. A job that passes
+# copies the file its report input names on the jstack-fixtures branch into
+# its artifact, as the sandbox's product CI copies what a step planted. A
+# run is titled by its outcome, as jstack titles its lock replay by its
+# commit.
 name: agree
+run-name: agree ${{ inputs.outcome }}
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +15,10 @@ on:
         required: true
         type: choice
         options: [pass, fail, hang]
+      report:
+        description: the path on the jstack-fixtures branch to copy
+        required: false
+        type: string
 permissions: {}
 jobs:
   agree:
@@ -20,8 +29,20 @@ jobs:
       - name: end as asked
         env:
           OUTCOME: ${{ inputs.outcome }}
+          REPORT: ${{ inputs.report }}
         run: |
           case "$OUTCOME" in
             fail) exit 1 ;;
             hang) sleep 300 ;;
           esac
+          mkdir -p report
+          if [ -n "$REPORT" ]; then
+            curl -fsSL -o report/report.txt \
+              "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/jstack-fixtures/$REPORT" ||
+              rm -f report/report.txt
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agree
+          path: report/
+          if-no-files-found: ignore
