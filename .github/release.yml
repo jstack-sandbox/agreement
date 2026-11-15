@@ -1,0 +1,12 @@
+# The notes the agreement tests ask GitHub to generate: a pull request goes
+# under the first category whose label it carries, "*" taking any.
+changelog:
+  categories:
+    - title: Breaking changes
+      labels: [breaking]
+    - title: Features
+      labels: [feat]
+    - title: Fixes
+      labels: [fix]
+    - title: Other changes
+      labels: ["*"]
