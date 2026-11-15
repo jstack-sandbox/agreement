@@ -22,7 +22,7 @@ on:
 permissions: {}
 jobs:
   agree:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ vars.CI_RUNS_ON }}
     environment: ci-release
     timeout-minutes: 1
     steps:

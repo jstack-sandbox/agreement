@@ -5,7 +5,7 @@ on:
 permissions: {}
 jobs:
   opened:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ vars.CI_RUNS_ON }}
     timeout-minutes: 1
     steps:
       - run: "true"
