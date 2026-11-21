@@ -3,11 +3,10 @@
 # approves it, as every product job in the sandbox does. A job that passes
 # copies the file its report input names on the jstack-fixtures branch into
 # its artifact, as the sandbox's product CI copies what a step planted. A
-# run is titled by its outcome and its dispatch's nonce, so a test finds
-# its own run among others waiting at the same commit, as jstack finds a
-# session's run by the key its run-name holds.
+# run is titled by its outcome, as jstack titles its lock replay by its
+# commit.
 name: agree
-run-name: agree ${{ inputs.outcome }} ${{ inputs.nonce }}
+run-name: agree ${{ inputs.outcome }}
 on:
   workflow_dispatch:
     inputs:
@@ -19,10 +18,6 @@ on:
       report:
         description: the path on the jstack-fixtures branch to copy
         required: false
-        type: string
-      nonce:
-        description: what the run's title holds, so its dispatch finds it
-        required: true
         type: string
 permissions: {}
 jobs:
